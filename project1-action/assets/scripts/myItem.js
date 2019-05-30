@@ -31,28 +31,11 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () {
-        // const mto = cc.moveTo(2, 100, 100);
-        // const mto = cc.moveTo(1, 100, 100);
-        // const mto = cc.moveBy(1, 100, 100);
-        // const rto = cc.rotateTo(1, 190);
-        // const rto = cc.rotateBy(1, 190);
-        this.node.scale = 2;
-        // const sto = cc.scaleTo(1, 2);  // 缩放至某个倍数
-        // const sto = cc.scaleBy(1, 1); // 缩放至当前的倍数
-
-        // this.node.opacity = 1;
-        // console.log(this.node);
-        // const fto = cc.fadeIn(3, .05);
-        const fto = cc.fadeOut(3);
-        this.node.runAction(fto);
-    },
+    // onLoad () {},
 
     start () {
 
     },
 
-    update (dt) {
-        // console.log(this.node.x);
-    },
+    // update (dt) {},
 });
