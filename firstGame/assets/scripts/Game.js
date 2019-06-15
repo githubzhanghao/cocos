@@ -70,7 +70,36 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-
+        //1. 显示当前页面右上角的转发按钮
+        wx.showShareMenu({withShareTicket:true})
+        //2. 监听分享
+        cc.loader.loadRes("texture/share",function(err,data){
+            wx.onShareAppMessage(function(res){
+                return {
+                    title: "游戏demo",
+                    imageUrl: data.url,
+                    success(res){
+                        console.log(res)
+                    },
+                    fail(res){
+                        console.log(res)
+                    } 
+                }
+            })
+        });
+        //3. 主动拉起分享
+        cc.loader.loadRes("texture/share",function(err,data){
+            wx.shareAppMessage({
+                title: "游戏demo",
+                imageUrl: data.url,
+                success(res){
+                    console.log(res)
+                },
+                fail(res){
+                    console.log(res)
+                } 
+            })
+        });
         this.score = 0;
         this.groundY = this.ground.y + this.ground.height / 2;
         this.spawnNewStar();
