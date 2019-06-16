@@ -50,12 +50,17 @@ cc.Class({
         this.jumpAction = this.setJumpAction();
 
         this.node.runAction(this.jumpAction);
-
         // 加速度方向开关
         this.accLeft = false;
         this.accRight = false;
         //主角当前水平方向速度
         this.xSpeed = 0;
+
+        // 边界宽度
+        this.boxWidth = this.node.parent.width;
+        
+        // 自身宽度
+        this.width = this.node.width;
 
         // 初始化绑定键盘监听事件
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
@@ -119,8 +124,16 @@ cc.Class({
             this.xSpeed = this.maxMoveSpeed * this.xSpeed / Math.abs(this.xSpeed);
         }
 
+        // 如果超出边界
+        var w = this.boxWidth / 2;
+        if(this.node.x + this.width / 2 > w || this.node.x - this.width / 2 < -w) {
+            // 做回弹效果
+            this.xSpeed = -this.xSpeed;
+        }
         // 更新位置
         this.node.x += this.xSpeed * dt;
+        
+        
     },
 
     onDestroy() {
