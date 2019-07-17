@@ -109,12 +109,13 @@ cc.Class({
 
         // 创建一个新的节点
         var newStar = cc.instantiate(this.starPrefab);
-        // 将新增的星星节点添加到Canvas节点下面
-        this.node.addChild(newStar);
         // 为星星设置一个随机位置
         newStar.setPosition(this.getNewStarPosition());
         // 在星星组件上暂存 Game 对象的引用
         newStar.getComponent('Star').game = this;
+        // 将新增的星星节点添加到Canvas节点下面
+        this.node.addChild(newStar);
+        
     },
 
     getNewStarPosition() {

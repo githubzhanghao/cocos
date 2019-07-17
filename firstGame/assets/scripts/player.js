@@ -35,7 +35,7 @@ cc.Class({
         // 最大移动速度
         maxMoveSpeed: 0,
         // 加速度
-        accel: 0,
+        accel: 20,
         // 落地声音
         jumpAudio: {
             default: null,
@@ -50,11 +50,11 @@ cc.Class({
     onLoad () {
 
         this.node.x = 0;
-        this.node.y = 0;
+        // this.node.y = 0;
         // 初始化跳跃动作
         this.jumpAction = this.setJumpAction();
 
-        // this.node.runAction(this.jumpAction);
+        this.node.runAction(this.jumpAction);
         // 加速度方向开关
         this.accLeft = false;
         this.accRight = false;
@@ -89,8 +89,8 @@ cc.Class({
         // 重力感应 DEVICEMOTION
         //设置开启重力传感
         // this.deviceMotion = true;
-        cc.systemEvent.setAccelerometerEnabled(true); 
-        cc.systemEvent.on(cc.SystemEvent.EventType.DEVICEMOTION, this.onDeviceMotionEvent, this);
+        // cc.systemEvent.setAccelerometerEnabled(true); 
+        // cc.systemEvent.on(cc.SystemEvent.EventType.DEVICEMOTION, this.onDeviceMotionEvent, this);
 
     },
 
@@ -137,10 +137,10 @@ cc.Class({
         }
     },
 
-    onDeviceMotionEvent(event) {
-        this.xSpeed += -event.acc.x * this.accel;
-        this.ySpeed += -event.acc.y * this.accel;
-    },
+    // onDeviceMotionEvent(event) {
+    //     this.xSpeed += -event.acc.x * this.accel;
+    //     this.ySpeed += -event.acc.y * this.accel;
+    // },
 
     playJumpSound: function() {
         cc.audioEngine.playEffect(this.jumpAudio, false);
@@ -151,49 +151,27 @@ cc.Class({
     // },
 
     update (dt) {
-        // if(this.accLeft) {
-        //     this.xSpeed -= this.accel * dt;
-        // } else if (this.accRight) {
-        //     this.xSpeed += this.accel * dt;
-        // }
-
-        var nowXspeed = Math.abs(this.xSpeed);
-        var nowYSpeed = Math.abs(this.ySpeed);
+        
+        // 根据当前加速度方向每帧更新速度
+        if (this.accLeft) {
+            this.xSpeed -= this.accel * dt;
+        } else if (this.accRight) {
+            this.xSpeed += this.accel * dt;
+        }
         // 限制主角的速度不能超过最大值
-        if (nowXspeed > this.maxMoveSpeed) {
-            this.xSpeed = this.maxMoveSpeed * this.xSpeed / nowXspeed;
-        }
-        if (nowYSpeed > this.maxMoveSpeed) {
-            this.ySpeed = this.maxMoveSpeed * this.ySpeed / nowYSpeed;
+        if ( Math.abs(this.xSpeed) > this.maxMoveSpeed ) {
+            // if speed reach limit, use max speed with current direction
+            this.xSpeed = this.maxMoveSpeed * this.xSpeed / Math.abs(this.xSpeed);
         }
 
-        // 如果超出边界
-        var w = this.boxWidth / 2;
-        var h = this.boxHeight / 2;
-        if(this.node.x + this.width / 2 > w || this.node.x - this.width / 2 < -w) {
-            // 做回弹效果
-            this.xSpeed = -this.xSpeed * this.prize;
-            // 播放声音
-            this.playJumpSound();
-            // 如果贴边
-            if(Math.floor(this.xSpeed) === 0){
-                this.node.x = this.node.x > 0 ? w - this.width / 2 : w + this.width / 2;
-            }
+        const boxBorder = this.boxWidth / 2;
+        const masterBorder = this.width / 2;
+        if (this.node.x - masterBorder < -boxBorder || this.node.x + masterBorder > boxBorder) {
+            this.xSpeed *= -1;
         }
-        if(this.node.y + this.height > h || this.node.y < -h) {
-            
-            // 做回弹效果
-            this.ySpeed = -this.ySpeed * this.prize;
-            // 播放声音
-            this.playJumpSound();
-            // 如果贴边
-            if(Math.floor(this.ySpeed) === 0) {
-                this.node.y = this.node.y > 0 ? h - this.height : 0;
-            }
-        }
-        // 更新位置
+
+        // 根据当前速度更新主角的位置
         this.node.x += this.xSpeed * dt;
-        this.node.y += this.ySpeed * dt;
         
     },
 

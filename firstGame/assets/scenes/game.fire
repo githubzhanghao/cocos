@@ -41,8 +41,8 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 0.8872314453125,
-      "y": 0.8872314453125,
+      "x": 0.5880456251454841,
+      "y": 0.5880456251454841,
       "z": 1
     },
     "_quat": {
@@ -498,13 +498,14 @@
       "__id__": 9
     },
     "_enabled": true,
-    "jumpHeight": 350,
+    "jumpHeight": 200,
     "jumpDuration": 0.5,
     "maxMoveSpeed": 400,
     "accel": 400,
     "jumpAudio": {
       "__uuid__": "1ddf786f-69af-402f-8a0d-c0082a906baf"
     },
+    "prize": 0.85,
     "_id": "fa/GE7P0lPk4Pt0Z+O64FU"
   },
   {
