@@ -52,9 +52,9 @@ cc.Class({
         this.node.x = 0;
         // this.node.y = 0;
         // 初始化跳跃动作
-        this.jumpAction = this.setJumpAction();
+        // this.jumpAction = this.setJumpAction();
 
-        this.node.runAction(this.jumpAction);
+        // this.node.runAction(this.jumpAction);
         // 加速度方向开关
         this.accLeft = false;
         this.accRight = false;
@@ -81,6 +81,7 @@ cc.Class({
         // cc.systemEvent.on(cc.SystemEvent.EventType.TOUCH_START, this.onTouchMove, this);
         // this.node.on('touchstart', this.onTouchMove, this);
         // this.node.on('touchmove', this.onTouchMove, this);
+        this.node.on(cc.SystemEvent.EventType.TOUCH_START, this.onTouchMove, this);
         // this.node.on('mouseup', this.onTouchMove, this);
         // cc.systemEvent.on(cc.SystemEvent.EventType.TOUCH_END, this.onKeyDown, this);
         // cc.systemEvent.on(cc.SystemEvent.EventType.TOUCH_CANCEL, this.onKeyUp, this);
@@ -95,9 +96,8 @@ cc.Class({
     },
 
     onTouchMove(event) {
+        alert(22);
         var delta = event.getDelta();
-        // this.xSpeed = delta.mag();
-        // console.log('touch', event);
     },
 
     setJumpAction: function() {
