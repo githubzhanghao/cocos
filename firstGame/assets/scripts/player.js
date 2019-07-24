@@ -42,7 +42,10 @@ cc.Class({
             type: cc.AudioClip
         },
         // 重力
-        prize: 0.85
+        prize: 0.85,
+
+        subXspeed: 0,
+        times: 0
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -52,7 +55,7 @@ cc.Class({
         this.node.x = 0;
         // this.node.y = 0;
         // 初始化跳跃动作
-        // this.jumpAction = this.setJumpAction();
+        this.jumpAction = this.setJumpAction();
 
         // this.node.runAction(this.jumpAction);
         // 加速度方向开关
@@ -78,26 +81,35 @@ cc.Class({
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
 
         // touch事件监听
-        // cc.systemEvent.on(cc.SystemEvent.EventType.TOUCH_START, this.onTouchMove, this);
-        // this.node.on('touchstart', this.onTouchMove, this);
+        // this.node.on('touchstart', this.onTouchStart, this);
         // this.node.on('touchmove', this.onTouchMove, this);
-        this.node.on(cc.SystemEvent.EventType.TOUCH_START, this.onTouchMove, this);
-        // this.node.on('mouseup', this.onTouchMove, this);
-        // cc.systemEvent.on(cc.SystemEvent.EventType.TOUCH_END, this.onKeyDown, this);
-        // cc.systemEvent.on(cc.SystemEvent.EventType.TOUCH_CANCEL, this.onKeyUp, this);
-
-
-        // 重力感应 DEVICEMOTION
-        //设置开启重力传感
-        // this.deviceMotion = true;
-        // cc.systemEvent.setAccelerometerEnabled(true); 
-        // cc.systemEvent.on(cc.SystemEvent.EventType.DEVICEMOTION, this.onDeviceMotionEvent, this);
+        this.node.on('touchend', this.onTouchEnd, this);
+        this.node.on('touchcancel', this.onTouchCancel, this);
 
     },
 
-    onTouchMove(event) {
-        alert(22);
-        var delta = event.getDelta();
+    // onTouchMove(event) {
+    //     var delta = event.getDelta();
+    //     if (delta.x > 0) {
+    //         this.accLeft = true;
+    //     } else if (delta.x < 0) {
+    //         this.accRight = true;
+    //     }
+        
+    // },
+
+    onTouchCancel() {
+        this.accLeft = false;
+        this.accRight = false;
+    },
+
+    onTouchEnd(event) {
+        var delta = event.getStartLocation();
+        var location = event.getLocation();
+        this.subXspeed = location.x - delta.x;
+        this.node.runAction(this.jumpAction);
+        // this.accLeft = false;
+        // this.accRight = false;
     },
 
     setJumpAction: function() {
@@ -110,8 +122,8 @@ cc.Class({
         // 落地播放声音
         var callback = cc.callFunc(this.playJumpSound, this);
 
-        // 无限重复
-        return cc.repeatForever(cc.sequence(jumpUp, jumpDown, callback));
+        // 重复
+        return cc.repeat(cc.sequence(jumpUp, jumpDown, callback), 1);
 
     },
 
@@ -137,13 +149,10 @@ cc.Class({
         }
     },
 
-    // onDeviceMotionEvent(event) {
-    //     this.xSpeed += -event.acc.x * this.accel;
-    //     this.ySpeed += -event.acc.y * this.accel;
-    // },
 
     playJumpSound: function() {
         cc.audioEngine.playEffect(this.jumpAudio, false);
+        this.times = 1;
     },
 
     // start () {
@@ -153,10 +162,18 @@ cc.Class({
     update (dt) {
         
         // 根据当前加速度方向每帧更新速度
-        if (this.accLeft) {
-            this.xSpeed -= this.accel * dt;
-        } else if (this.accRight) {
-            this.xSpeed += this.accel * dt;
+        // if (this.accLeft) {
+        //     this.xSpeed -= this.accel * dt;
+        // } else if (this.accRight) {
+        //     this.xSpeed += this.accel * dt;
+        // }
+        
+        // this.xSpeed += this.subXspeed * dt;
+
+        if (this.jumpHeight > 0) {
+            this.jumpHeight -= 20;
+        } else {
+            this.jumpHeight = 0;
         }
         // 限制主角的速度不能超过最大值
         if ( Math.abs(this.xSpeed) > this.maxMoveSpeed ) {
@@ -168,10 +185,11 @@ cc.Class({
         const masterBorder = this.width / 2;
         if (this.node.x - masterBorder < -boxBorder || this.node.x + masterBorder > boxBorder) {
             this.xSpeed *= -1;
+            this.subXspeed *= -1;
         }
 
         // 根据当前速度更新主角的位置
-        this.node.x += this.xSpeed * dt;
+        this.node.x += this.subXspeed * dt;
         
     },
 

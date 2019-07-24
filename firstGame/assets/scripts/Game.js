@@ -103,6 +103,7 @@ cc.Class({
         this.score = 0;
         this.groundY = this.ground.y + this.ground.height / 2;
         this.spawnNewStar();
+
     },
 
     spawnNewStar() {
@@ -137,7 +138,7 @@ cc.Class({
     },
 
     start () {
-
+        
     },
 
     // update (dt) {
