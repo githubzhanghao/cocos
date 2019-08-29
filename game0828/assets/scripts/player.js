@@ -58,6 +58,8 @@ cc.Class({
         this.fps = 0.027;
 
         
+
+        
     },
 
     start () {
@@ -68,8 +70,8 @@ cc.Class({
     },
 
     onCollisionEnter(other, self) {
-        console.log(other);
-        console.log(self);
+        console.log('dead');
+        this.node.remove();
     },
 
     

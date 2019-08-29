@@ -61,13 +61,13 @@ cc.Class({
 
     start () {
         // this.node.x = this.boxBorderWidth;
-        var manager = cc.director.getCollisionManager();
-        manager.enabled = true;
+        
         // manager.enabledDrawBoundingBox = true;
     },
 
     onCollisionEnter(other, self) {
         if (other.node.name === self.node.name) {
+            // self.node.getComponent('root').yInertia *= -1
             // other.node.getComponent('root').yInertia *= -1;
             this.yInertia *= -1;
             // this.xInertia *= -1;
