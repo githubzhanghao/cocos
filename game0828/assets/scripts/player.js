@@ -69,9 +69,8 @@ cc.Class({
         manager.enabledDrawBoundingBox = true;
     },
 
-    onCollisionEnter(other, self) {
-        console.log('dead');
-        this.node.remove();
+    onCollisionEnter() {
+        // this.node.destroy();
     },
 
     

@@ -49,7 +49,6 @@ cc.Class({
             _root.getComponent('root').yInertia = Math.random() * 40;
             this.node.addChild(_root);
         }
-        console.log(this.node.children);
     },
 
     start () {
