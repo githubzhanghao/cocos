@@ -58,6 +58,8 @@ cc.Class({
         this.fps = 0.027;
 
         
+
+        
     },
 
     start () {
@@ -67,9 +69,8 @@ cc.Class({
         manager.enabledDrawBoundingBox = true;
     },
 
-    onCollisionEnter(other, self) {
-        console.log(other);
-        console.log(self);
+    onCollisionEnter() {
+        // this.node.destroy();
     },
 
     

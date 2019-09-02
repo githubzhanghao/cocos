@@ -17,7 +17,7 @@
     "_parent": null,
     "_children": [],
     "_active": true,
-    "_level": 2,
+    "_level": 3,
     "_components": [
       {
         "__id__": 2
@@ -52,8 +52,8 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": -255,
-      "y": -131,
+      "x": 24,
+      "y": -196,
       "z": 0
     },
     "_scale": {
@@ -131,7 +131,7 @@
       "x": 0,
       "y": 0
     },
-    "_radius": 40,
+    "_radius": 20,
     "_id": ""
   },
   {
@@ -142,7 +142,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "5eZORD74tI8qU3UO2aYMyz",
+    "fileId": "15x39e06xOk4+2kLaMVIAM",
     "sync": false
   }
 ]
