@@ -61,18 +61,17 @@ cc.Class({
 
     start () {
         // this.node.x = this.boxBorderWidth;
-        
         // manager.enabledDrawBoundingBox = true;
     },
 
-    onCollisionEnter(other, self) {
-        if (other.node.name === self.node.name) {
-            // self.node.getComponent('root').yInertia *= -1
-            // other.node.getComponent('root').yInertia *= -1;
-            this.yInertia *= -1;
-            // this.xInertia *= -1;
-        }
-    },
+    // onCollisionEnter(other, self) {
+    //     if (other.node.name === self.node.name) {
+    //         // self.node.getComponent('root').yInertia *= -1
+    //         // other.node.getComponent('root').yInertia *= -1;
+    //         this.yInertia *= -1;
+    //         // this.xInertia *= -1;
+    //     }
+    // },
 
     update (dt) {
         if (this.fps > 0) {
@@ -85,11 +84,16 @@ cc.Class({
         this.xSpeed = dt * 10 * this.xInertia;
         this.ySpeed = dt * 10 * this.yInertia;
 
-        const { posX, posY } = this.isOut(this.xSpeed, this.ySpeed);
-        
-        this.node.x = posX;
-        this.node.y = posY;
+        // const { posX, posY } = this.isOut(this.xSpeed, this.ySpeed);
+
+        // this.node.x = posX;
+        // this.node.y = posY;
     },
+
+    // 和其他root碰撞检测 (没思路)
+    // isFric() {
+
+    // },
 
     /**
      * 

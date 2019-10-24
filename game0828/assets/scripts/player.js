@@ -35,43 +35,43 @@ cc.Class({
 
     onLoad () {
         // 场景背景填充
-        const pdBackground = 0;
-        const parent = this.node.parent;
-        const { width, height } = parent;
-
-        // 游戏容器边界
-        this.boxBorderWidth = (width - pdBackground * 2) / 2;
-        this.boxBorderHeight = (height - pdBackground * 2) / 2;
-        // 当前player节点的半径(宽、高)
-        this.radiusX = this.node.width / 2,
-        this.radiusY = this.node.height /2;
-        // 当前节点双轴上的速度
-        this.xSpeed = 1;
-        this.ySpeed = 1;
+        // const pdBackground = 0;
+        // const parent = this.node.parent;
+        // const { width, height } = parent;
+        // // 游戏容器边界
+        // this.boxBorderWidth = (width - pdBackground * 2) / 2;
+        // this.boxBorderHeight = (height - pdBackground * 2) / 2;
+        // // 当前player节点的半径(宽、高)
+        // this.radiusX = this.node.width / 2,
+        // this.radiusY = this.node.height /2;
+        // // 当前节点双轴上的速度
+        // this.xSpeed = 1;
+        // this.ySpeed = 1;
         
-        // 边界的player坐标
-        this.playerBorderPosX = this.boxBorderWidth - this.radiusX;
-        this.playerBorderPosY = this.boxBorderHeight - this.radiusY;
-        // this.node.x = width / 2 - this.radiusX;
+        // // 边界的player坐标
+        // this.playerBorderPosX = this.boxBorderWidth - this.radiusX;
+        // this.playerBorderPosY = this.boxBorderHeight - this.radiusY;
 
-        // 限定fps（待确认）
-        this.fps = 0.027;
+        // // 限定fps（待确认）
+        // this.fps = 0.027;
 
-        
 
         
     },
 
     start () {
         // this.node.x = this.boxBorderWidth;
-        var manager = cc.director.getCollisionManager();
-        manager.enabled = true;
-        manager.enabledDrawBoundingBox = true;
+        this.children = this.node.parent.children;
+        for (let i = 0; i < this.children.length; i++) {
+            if (this.node === this.children[i]) {
+                this.children.splice(i, 1);
+            }
+        }
     },
 
-    onCollisionEnter() {
-        // this.node.destroy();
-    },
+    // onCollisionEnter() {
+    //     // this.node.destroy();
+    // },
 
     
     update (dt) {
@@ -85,10 +85,36 @@ cc.Class({
         // this.xSpeed = dt * 10 * this.xInertia;
         // this.ySpeed = dt * 10 * this.yInertia;
 
+        // this.isFric();
         // const { posX, posY } = this.isOut(this.xSpeed, this.ySpeed);
-        
+
         // this.node.x = posX;
         // this.node.y = posY;
+
+    },
+
+    /**
+     * 
+     * 和root碰撞检测
+     */
+    isFric() {
+        const { width, height } = this.children[0];
+        const root_radius = this.getSqrt(width, height);
+        const radius = this.getSqrt(this.node.width, this.node.height);
+        
+        for (let index = 0; index < this.children.length; index++) {
+            let root = this.children[index];
+            const { x, y } = root;
+            if (this.getSqrt(this.node.x - x, this.node.y - y) < root_radius + radius) {
+                console.log('碰撞了');
+            }
+        }
+
+
+    },
+
+    getSqrt(x, y) {
+        return Math.sqrt(Math.pow(x / 2, 2) , Math.pow(y / 2, 2));
     },
 
     /**
