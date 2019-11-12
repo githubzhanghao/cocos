@@ -12,7 +12,7 @@
   "fb-instant-games": {},
   "includeSDKBox": false,
   "inlineSpriteFrames": true,
-  "inlineSpriteFrames_native": true,
+  "inlineSpriteFrames_native": false,
   "md5Cache": false,
   "mergeStartScene": false,
   "optimizeHotUpdate": false,
@@ -28,12 +28,12 @@
     "orientation": "portrait",
     "zip": false
   },
-  "startScene": "",
+  "startScene": "a16b123d-b875-452e-8014-7005c666d401",
   "title": "testTouch",
   "webOrientation": "auto",
   "wechatgame": {
     "REMOTE_SERVER_ROOT": "",
-    "appid": "wx6ac3f5090a6b99c5",
+    "appid": "wxe83335eb9983605c",
     "orientation": "landscape",
     "subContext": ""
   },

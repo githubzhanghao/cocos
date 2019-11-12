@@ -32,31 +32,61 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-        console.log(1111);
+        let borderWH = this.node.parent.width / 2;
         this._dest = this.node.position;
+        this.borderW = borderWH;
+        this.borderH = borderWH;
+        // let canvas = cc.find('Canvas');
+        // this.borderW = canvas.width / 2;
+        // this.borderH = canvas.height / 2;
+        this.w = this.node.width / 2;
+        this.h = this.node.height / 2;
 
-        let canvas = cc.find('Canvas');
-        
+        this.node.on(cc.Node.EventType.TOUCH_START, this.onTouchStart, this);
         this.node.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
         this.node.on(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this);
         
     },
 
     start () {
-        
+        this._dest = cc.v2(0, 0);
+    },
+
+    onTouchStart () {
+        // this._dest = cc.v2(0, 0);
     },
 
     onTouchMove (event) {
         let touches = event.getTouches();
-        console.log(touches);
+        const _touchLocation = touches[0].getLocation();
+        // let _position = this._dest.add(delta),
+
+        
+        // console.log(x, y);
+        // 先判断手指是否已经脱离触控区域
+        console.log(event);
+        if (_touchLocation.x > this.borderW || _touchLocation.x < -this.borderW || _touchLocation.y > this.borderH || _touchLocation.y < this.borderH) {
+            return;
+        }
+
         let delta = touches[0].getDelta();
-        console.log(delta);
+        let _position = this.node.position.add(delta),
+            { x, y } = _position;
+        // 在触控区域内，判断按钮点的位置
+        if (x + this.w > this.borderW || x - this.w < -this.borderW || y + this.h > this.borderH || y - this.h < -this.borderH) {
+            console.log('超出范围了');
+            // this.node.position = cc.v2(0, 0);
+            return;
+        }
+        console.log('超出范围继续运动');
         this._dest.addSelf(delta);
         this.node.position = this._dest;
     },
 
     onTouchEnd () {
-        this._dest = this.node.position;
+        // this._dest = this.node.position;
+        this.node.position = cc.v2(0, 0);
+
     }
 
     // update (dt) {},
